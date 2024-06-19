@@ -1,23 +1,21 @@
-
-let botonInicio;
+let numFrames = 40;
+let whichFrame = 0;
+let frames = [];
 let portada;
-
-var fade;
-var fadeAmount = 1;
-var frames = [];
-var whichFrame = 0;
-var delay = 1000;  //milisegundos para el delay
-var nextTimer = 0;
+var b;
+let nextTimer = 0;
+let delay = 1000;
 
 
 function preload(){
+  
  portada = loadImage("inicio.png");
  //inicio
  frames[0] = loadImage("Inicio/escena1.png");
  frames[1] = loadImage("Inicio/escena2.png");
  frames[2] = loadImage("Inicio/escena3.png");
  frames[3] = loadImage("Inicio/escena4.png");
-  //cueva
+ 
 }
 
 function transicion(){
@@ -34,42 +32,40 @@ function transicion(){
 
 function setup() {
 createCanvas(1360, 600);
+b = createButton("iniciar");
+b.position(650, 300);
+b.mousePressed(inicio);
+
+
 nextTimer = millis() + delay;
- //boton de inicio
-
-botonInicio = createButton("comenzar");
-botonInicio.position(width/2 - 50, height/2);
-botonInicio.mouseClicked(draw);
-
-
 }
 
+function inicio(){
+
+   
+ image(frames[whichFrame], 330, 0, 650, 600);
 
 
-function draw() {
-background(0);
- fade += fadeAmount;
- transicion();
- 
- image(portada, 210 , 0, 900, 600);
- 
- 
-  image(frames[whichFrame], 0, 0, 1360, 600);
-
-if (millis() > nextTimer) {
+  // checks if enough time has passed
+  // since we last changed the frame and we
+  // need to do it again.
+  if (millis() > nextTimer) {
     whichFrame = whichFrame + 1;
-    // vuelve al inicio en un loop
+    // loop around to the beginning.
     if (whichFrame >= frames.length) {
       whichFrame = 0;
     }
-    // resetea el tiempo para el siguiente frame 
+    // reset the timer for the next frame.
     nextTimer = millis() + delay;
   }
+  
  
 
+  
 }
 
-function mouseClicked(){
-  
-  
+function draw() {
+background(0);
+ image(portada, 330, 0, 650, 600);
+ 
 }
